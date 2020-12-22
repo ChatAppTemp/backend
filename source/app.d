@@ -4,7 +4,7 @@ import viva.types.string;
 /++
  + handles errors
  +/
-void handleError(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error)
+void handleError(HTTPServerRequest _, HTTPServerResponse res, HTTPServerErrorInfo error)
 {
 	import std.conv : to;
 
