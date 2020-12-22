@@ -1,0 +1,39 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: actions/checkout@v2
+        
+      # Install submodules
+      - name: Checkout submodules
+        uses: srt32/git-actions@v0.0.3
+        with:
+          args: git submodule update --init --recursive
+      
+      # Install D and Dub
+      - name: Install D
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: dmd-latest
+      
+      # Build project
+      - name: Build
+        run: dub build
+      
+      # Run style checking
+      - name: Style cheks
+        run: |
+          dub fetch dscanner
+          dub run dscanner -- -S source/
+      
+      # Run testing
+      - name: Unit Tests
+        run: dub test
