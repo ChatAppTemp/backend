@@ -12,11 +12,16 @@ to run the server you simply install `dmd` and `dub` and then run the following 
 dub run
 ```
 
+## build
+to just build the server you need to install `dmd` and `dub` as well as run the command
+```
+dub build
+```
+there should now be an executable named `backend` in the `bin/` folder
+
 ## config example
 heres an example of how your config may look like
 ```yml
-hostname: http://localhost:5000/
-
 host_ip: 0.0.0.0
 host_port: 5000
 
