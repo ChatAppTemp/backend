@@ -63,7 +63,7 @@ public class ServersAPI : IServersAPI
     {
         import viva.io : println;
 
-        println(token);
+        println(token, name);
 
         return serializeToJson(["token": "todo"]);
     }
