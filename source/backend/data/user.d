@@ -6,56 +6,56 @@ import viva.mistflake;
 /++
  + the user object
  +/
-struct User
+public struct User
 {
     /// the users id
     @name("_id")
-    Mistflake id;
+    public Mistflake id;
 
     /// the users username
-    string username;
+    public string username;
 
     /// the users discriminator
-    ulong discrim;
+    public ulong discrim;
 
     /// the link to the users profile picture
-    string pfpLink;
+    public string pfpLink;
 
     /// the users status
-    Status status;
+    public Status status;
 }
 
 /++
  + the user object, but in minimal form. used for sessions
  +/
-struct ServiceUser
+public struct ServiceUser
 {
     /// the users id
-    Mistflake id;
+    public Mistflake id;
 
     /// the users username
-    string username;
+    public string username;
 
     /// the link to the users profile picture
-    string pfpLink;
+    public string pfpLink;
 }
 
 /++
  + user status object
  +/
-struct Status
+public struct Status
 {
     /// the type of the status
-    StatusType type;
+    public StatusType type;
 
     /// the custom message of the status
-    string message;
+    public string message;
 }
 
 /++
  + the status type for user statuses
  +/
-enum StatusType
+public enum StatusType
 {
     OFFLINE = 1,
     INVISIBLE,
@@ -67,20 +67,20 @@ enum StatusType
 /++
  + member object. represents users in servers
  +/
-struct Member
+public struct Member
 {
     /// the members id
-    Mistflake id;
+    public Mistflake id;
 
     /// the id of the server
-    Mistflake server;
+    public Mistflake server;
 
     /// bool representing whether or not the member is the server owner
-    bool isOwner;
+    public bool isOwner;
 
     /// bool representing whether or not the member is muted
-    bool isMuted;
+    public bool isMuted;
 
     /// the users nickname
-    string nickname;
+    public string nickname;
 }
