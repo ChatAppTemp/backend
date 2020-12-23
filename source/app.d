@@ -1,10 +1,7 @@
 import vibe.d;
 import viva.types.string;
 
-/++
- + handles errors
- +/
-void handleError(HTTPServerRequest _, HTTPServerResponse res, HTTPServerErrorInfo error)
+private void handleError(HTTPServerRequest _, HTTPServerResponse res, HTTPServerErrorInfo error)
 {
 	import std.conv : to;
 
@@ -22,12 +19,16 @@ void handleError(HTTPServerRequest _, HTTPServerResponse res, HTTPServerErrorInf
 
 public void main()
 {
-	import backend.rest : AccountsAPI;
+	import backend.rest : AccountsAPI, ServersAPI, UsersAPI, MeAPI;
 	import backend.data : config;
+	import backend.db : connectDB;
 
 	URLRouter router = new URLRouter();
 
 	router.registerRestInterface(new AccountsAPI());
+	router.registerRestInterface(new ServersAPI());
+	router.registerRestInterface(new UsersAPI());
+	router.registerRestInterface(new MeAPI());
 
 	HTTPServerSettings serverSettings = new HTTPServerSettings();
 	serverSettings.bindAddresses = [config.hostIp];
@@ -35,7 +36,7 @@ public void main()
     serverSettings.sessionStore = new MemorySessionStore();
 	serverSettings.errorPageHandler = toDelegate(&handleError);
 	
-	// connect to db
+	connectDB();
 
 	listenHTTP(serverSettings, router);
 	//listenTCP(config.socketPort, &handler, config.socketHost);
