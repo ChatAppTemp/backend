@@ -26,6 +26,21 @@ struct User
 }
 
 /++
+ + the user object, but in minimal form. used for sessions
+ +/
+struct ServiceUser
+{
+    /// the users id
+    Mistflake id;
+
+    /// the users username
+    string username;
+
+    /// the link to the users profile picture
+    string pfpLink;
+}
+
+/++
  + user status object
  +/
 struct Status
@@ -55,7 +70,6 @@ enum StatusType
 struct Member
 {
     /// the members id
-    @name("_id")
     Mistflake id;
 
     /// the id of the server
