@@ -61,6 +61,7 @@ public enum StatusType
     INVISIBLE,
     INACTIVE,
     ONLINE,
+    // Do Not Disturb
     DND
 }
 
@@ -84,4 +85,14 @@ public struct Member
 
     /// the users nickname
     public string nickname;
+}
+
+@("status type representations are correct")
+unittest
+{
+    assert(StatusType.OFFLINE == 1);
+    assert(StatusType.INVISIBLE == 2);
+    assert(StatusType.INACTIVE == 3);
+    assert(StatusType.ONLINE == 4);
+    assert(StatusType.DND == 5);
 }
