@@ -8,13 +8,27 @@ private void handleError(HTTPServerRequest _, HTTPServerResponse res, HTTPServer
     string errorDebug = "";
     debug errorDebug = error.debugMessage;
 
+    struct Error
+    {
+        string code;
+        string status;
+        string message;
+    }
+
     res.contentType = "application/json";
+    res.writeBody(serializeToJsonString(["error": Error(
+        error.code.to!string,
+        error.message,
+        error.debugMessage
+    )]));
+    /*
     res.writeBody(str(
         `{"code": "`, error.code.to!string,
         `", "status": "`, error.message,
         `", "message": "`, error.debugMessage,
         `"}`
     ));
+    */
 }
 
 public void main()
