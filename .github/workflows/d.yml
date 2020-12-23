@@ -29,7 +29,7 @@ jobs:
         run: dub build
       
       # Run style checking
-      - name: Style cheks
+      - name: Style Checks
         run: |
           dub fetch dscanner
           dub run dscanner -- -S source/
