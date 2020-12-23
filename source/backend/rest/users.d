@@ -16,7 +16,7 @@ public interface IUsersAPI
     @path("/:user/servers")
     @method(HTTPMethod.GET)
     @headerParam("token", "Authorization")
-    Json getUserServers(string token, string _user);
+    Json getUserServers(string token, string _user) @safe;
 }
 
 /++
@@ -29,7 +29,7 @@ public class UsersAPI : IUsersAPI
      +
      + gets the servers the specified user is in
      +/
-    public Json getUserServers(string token, string _user)
+    public Json getUserServers(string token, string _user) @safe
     {
         import viva.io : println;
         import viva.mistflake : Mistflake, MistflakeParser;

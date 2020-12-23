@@ -16,7 +16,7 @@ public interface IServersAPI
     @path("/:server")
     @method(HTTPMethod.GET)
     @headerParam("token", "Authorization")
-    Json getServerInfo(string token, string _server);
+    Json getServerInfo(string token, string _server) @safe;
 
     /++
      + PUT /
@@ -41,7 +41,7 @@ public class ServersAPI : IServersAPI
      +
      + gets info about a server
      +/
-    public Json getServerInfo(string token, string _server)
+    public Json getServerInfo(string token, string _server) @safe
     {
         import viva.io : println;
         import viva.mistflake : Mistflake, MistflakeParser;
