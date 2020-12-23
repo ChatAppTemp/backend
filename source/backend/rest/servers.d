@@ -49,7 +49,7 @@ public class ServersAPI : IServersAPI
         println(token, _server);
 
         Mistflake serverId = MistflakeParser().parse(_server);
-        println(serverId.time.toUTC());
+        println(serverId.time);
 
         return serializeToJson(["token": "todo"]);
     }

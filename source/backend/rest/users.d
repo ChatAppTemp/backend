@@ -37,7 +37,7 @@ public class UsersAPI : IUsersAPI
         println(token, _user);
 
         Mistflake serverId = MistflakeParser().parse(_user);
-        println(serverId.time.toUTC());
+        println(serverId.time);
 
         return serializeToJson(["token": "todo"]);
     }

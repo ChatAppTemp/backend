@@ -11,11 +11,6 @@ import dyaml;
 public struct Config
 {
     /++
-     + hostname of the website
-     +/
-    public string hostname;
-
-    /++
      + ip on where to host the server
      +/
     public string hostIp;
@@ -84,10 +79,6 @@ static this()
         }
 
         enforce(cfg.isValid(), format!"%s: invalid"(configName));
-
-        // hostname
-        enforce(cfg.containsKey("hostname"), format!"%s: missing hostname"(configName));
-        _config.hostname = cfg["hostname"].as!string();
 
         // hostIp
         enforce(cfg.containsKey("host_ip"), format!"%s: missing host_ip"(configName));
