@@ -156,3 +156,10 @@ public void removeOneById(T, R)(R id) @safe
 {
     remove!T(["_id": id]);
 }
+
+@("db collection names are correct")
+unittest
+{
+    assert(getCollectionName!User() == "users");
+    assert(getCollectionName!Member() == "members");
+}
