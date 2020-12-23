@@ -21,14 +21,6 @@ private void handleError(HTTPServerRequest _, HTTPServerResponse res, HTTPServer
         error.message,
         error.debugMessage
     )]));
-    /*
-    res.writeBody(str(
-        `{"code": "`, error.code.to!string,
-        `", "status": "`, error.message,
-        `", "message": "`, error.debugMessage,
-        `"}`
-    ));
-    */
 }
 
 public void main()
