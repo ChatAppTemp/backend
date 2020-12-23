@@ -5,7 +5,7 @@ import backend.data;
 import std.typecons;
 
 /// a list of all of the collection names in the db
-public const string[] collections = ["users", "servers", "messages"];
+public const string[] collections = ["users", "members", "servers", "channels", "messages"];
 
 private MongoDatabase mongo;
 
@@ -28,6 +28,10 @@ private string getCollectionName(T)() @safe
     static if (is(T == User))
     {
         return "users";
+    }
+    else static if (is(T == Member))
+    {
+        return "members";
     }
     // TODO: add the rest of the types
     else

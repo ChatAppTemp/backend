@@ -70,6 +70,7 @@ public enum StatusType
 public struct Member
 {
     /// the members id
+    @name("_id")
     public Mistflake id;
 
     /// the id of the server
