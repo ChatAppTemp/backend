@@ -17,7 +17,8 @@ public interface IAccountsAPI
     @method(HTTPMethod.POST)
     @bodyParam("username", "username")
     @bodyParam("password", "password")
-    Json signup(string username, string password) @safe;
+    @bodyParam("email", "email")
+    Json signup(string username, string password, string email = "") @safe;
 
     /++
      + POST /accounts/signin
@@ -41,11 +42,14 @@ public class AccountsAPI : IAccountsAPI
      +
      + creates a new user
      +/
-    public Json signup(string username, string password) @safe
+    public Json signup(string username, string password, string email) @safe
     {
         import viva.io : println;
+        import backend.util.id : userIdGenerator;
 
-        println(username, password);
+        Mistflake id = userIdGenerator.next();
+
+        println(username, password, email, id.asString);
 
         return serializeToJson(["token": "todo"]);
     }

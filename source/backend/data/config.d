@@ -36,12 +36,8 @@ public struct Config
     public string mongoConnection;
 }
 
-/++
- + app config
- +/
-@property
-@safe
-public Config config() { return _config; }
+/// app config
+@property public Config config() @safe { return _config; }
 private Config _config;
 
 static this()

@@ -28,6 +28,7 @@ public void main()
     import backend.rest : AccountsAPI, ServersAPI, UsersAPI, MeAPI;
     import backend.data : config;
     import backend.db : connectDB;
+    import backend.util : setupIdGenerators;
 
     URLRouter router = new URLRouter();
 
@@ -41,8 +42,9 @@ public void main()
     serverSettings.port = config.hostPort;
     serverSettings.sessionStore = new MemorySessionStore();
     serverSettings.errorPageHandler = toDelegate(&handleError);
-    
+
     connectDB();
+    setupIdGenerators();
 
     listenHTTP(serverSettings, router);
     //listenTCP(config.socketPort, &handler, config.socketHost);

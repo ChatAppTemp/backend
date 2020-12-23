@@ -33,7 +33,18 @@ private string getCollectionName(T)() @safe
     {
         return "members";
     }
-    // TODO: add the rest of the types
+    else static if (is(T == Server))
+    {
+        return "servers";
+    }
+    else static if (is(T == Channel))
+    {
+        return "channels";
+    }
+    else static if (is(T == Message))
+    {
+        return "messages";
+    }
     else
     {
         static assert(false, "no collection for type " ~ T.stringof);
@@ -162,4 +173,7 @@ unittest
 {
     assert(getCollectionName!User() == "users");
     assert(getCollectionName!Member() == "members");
+    assert(getCollectionName!Server() == "servers");
+    assert(getCollectionName!Channel() == "channels");
+    assert(getCollectionName!Message() == "message");
 }
