@@ -4,20 +4,20 @@ import vibe.d;
 import viva.mistflake;
 
 /++
- +
+ + the message object
  +/
 public struct Message
 {
-    ///
+    /// the id of the message
     @name("_id")
-    Mistflake id;
+    public Mistflake id;
 
-    ///
-    string contents;
+    /// the contents of the message
+    public string contents;
 
-    ///
-    Mistflake author;
+    /// the id of the sender
+    public Mistflake author;
 
-    ///
-    Mistflake channel;
+    /// the id of the channel the message was sent in
+    public Mistflake channel;
 }

@@ -45,6 +45,7 @@ public class AccountsAPI : IAccountsAPI
     public Json signup(string username, string password, string email) @safe
     {
         import viva.io : println;
+        import viva.mistflake : Mistflake;
         import backend.util.id : userIdGenerator;
 
         Mistflake id = userIdGenerator.next();

@@ -4,17 +4,17 @@ import vibe.d;
 import viva.mistflake;
 
 /++
- +
+ + the user object
  +/
 public struct Channel
 {
-    ///
+    /// the id of the channel
     @name("_id")
-    Mistflake id;
+    public Mistflake id;
 
-    ///
-    Mistflake serverId;
+    /// the id of the server the channel is in
+    public Mistflake serverId;
 
-    ///
-    string channelName;
+    /// the display name of the channel
+    public string channelName;
 }
