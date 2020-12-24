@@ -175,5 +175,5 @@ unittest
     assert(getCollectionName!Member() == "members");
     assert(getCollectionName!Server() == "servers");
     assert(getCollectionName!Channel() == "channels");
-    assert(getCollectionName!Message() == "message");
+    assert(getCollectionName!Message() == "messages");
 }
