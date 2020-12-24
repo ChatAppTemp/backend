@@ -16,7 +16,7 @@ public struct User
     public string username;
 
     /// the users discriminator
-    public ulong discrim;
+    //public ulong discrim;
 
     /// the link to the users profile picture
     public string pfpLink;
@@ -41,15 +41,34 @@ public struct ServiceUser
 }
 
 /++
+ + the auth user is used to store a users credentials in the database
+ +/
+public struct AuthUser
+{
+    /// the users id
+    @name("_id")
+    public Mistflake id;
+
+    /// the username of the user
+    public string username;
+
+    /// the email of the user (if any)
+    public string email;
+
+    /// the users password
+    public string password;
+}
+
+/++
  + user status object
  +/
 public struct Status
 {
     /// the type of the status
-    public StatusType type;
+    public StatusType type = StatusType.OFFLINE;
 
     /// the custom message of the status
-    public string message;
+    public string message = "";
 }
 
 /++

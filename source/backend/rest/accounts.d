@@ -27,9 +27,9 @@ public interface IAccountsAPI
      +/
     @path("/signin")
     @method(HTTPMethod.POST)
-    @bodyParam("username", "username")
+    @bodyParam("login", "login")
     @bodyParam("password", "password")
-    Json signin(string username, string password) @safe;
+    Json signin(string login, string password) @safe;
 }
 
 /++
@@ -47,12 +47,27 @@ public class AccountsAPI : IAccountsAPI
         import viva.io : println;
         import viva.mistflake : Mistflake;
         import backend.util.id : userIdGenerator;
+        import backend.data : User, AuthUser, Status;
+        import backend.db : insert, findOne;
+
+        enforceHTTP(username.length > 0, HTTPStatus.badRequest, "username cannot be empty");
+        enforceHTTP(password.length > 0, HTTPStatus.badRequest, "password cannot be empty");
+
+        const userCheck = findOne!AuthUser(["$or": [["username": username], ["email": email]]]);
+        if (!userCheck.isNull)
+        {
+            throw new HTTPStatusException(HTTPStatus.badRequest, "username or email is already in use");
+        }
 
         Mistflake id = userIdGenerator.next();
 
-        println(username, password, email, id.asString);
+        AuthUser auth = AuthUser(id, username, email, password);
+        insert(auth);
 
-        return serializeToJson(["token": "todo"]);
+        User user = User(id, username, "https://some.link/default.png", Status());
+        insert(user);
+
+        return serializeToJson(["userid": id.asString]);
     }
 
     /++
@@ -60,12 +75,22 @@ public class AccountsAPI : IAccountsAPI
      +
      + logs in an existing user
      +/
-    public Json signin(string username, string password) @safe
+    public Json signin(string login, string password) @safe
     {
         import viva.io : println;
+        import backend.db : findOne;
+        import backend.data : User, AuthUser;
 
-        println(username, password);
+        const auth = findOne!AuthUser(["$or": [["username": login], ["email": login]]]);
 
-        return serializeToJson(["token": "todo"]);
+        enforceHTTP(!auth.isNull, HTTPStatus.notFound, "user with that email/username not found");
+
+        const user = findOne!User(["_id": auth.get().id]);
+
+        enforceHTTP(!user.isNull, HTTPStatus.notFound, "user not found");
+
+        enforceHTTP(password == auth.get().password, HTTPStatus.badRequest, "wrong password");
+
+        return serializeToJson(user.get());
     }
 }

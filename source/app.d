@@ -1,6 +1,8 @@
 import vibe.d;
 import viva.types.string;
 
+// TODO: Mistflake ids gets stored as objects in db. how do we change this? we want to store them as strings
+
 private void handleError(HTTPServerRequest _, HTTPServerResponse res, HTTPServerErrorInfo error)
 {
     import std.conv : to;

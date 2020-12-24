@@ -5,7 +5,7 @@ import backend.data;
 import std.typecons;
 
 /// a list of all of the collection names in the db
-public const string[] collections = ["users", "members", "servers", "channels", "messages"];
+public const string[] collections = ["auth", "users", "members", "servers", "channels", "messages"];
 
 private MongoDatabase mongo;
 
@@ -25,7 +25,11 @@ private void connectMongo(string host, string db)
 
 private string getCollectionName(T)() @safe
 {
-    static if (is(T == User))
+    static if (is(T == AuthUser))
+    {
+        return "auth";
+    }
+    else static if (is(T == User))
     {
         return "users";
     }
