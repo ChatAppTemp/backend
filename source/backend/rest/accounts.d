@@ -46,6 +46,7 @@ public class AccountsAPI : IAccountsAPI
     {
         import viva.io : println;
         import viva.mistflake : Mistflake;
+        import viva.scrypt : genScryptPasswordHash;
         import backend.util.id : userIdGenerator;
         import backend.data : User, AuthUser, Status;
         import backend.db : insert, findOne;
@@ -61,7 +62,9 @@ public class AccountsAPI : IAccountsAPI
 
         Mistflake id = userIdGenerator.next();
 
-        AuthUser auth = AuthUser(id, username, email, password);
+        string hashedPassword = genScryptPasswordHash(password);
+
+        AuthUser auth = AuthUser(id, username, email, hashedPassword);
         insert(auth);
 
         User user = User(id, username, "https://some.link/default.png", Status());
@@ -78,6 +81,7 @@ public class AccountsAPI : IAccountsAPI
     public Json signin(string login, string password) @safe
     {
         import viva.io : println;
+        import viva.scrypt : checkScryptPasswordHash;
         import backend.db : findOne;
         import backend.data : User, AuthUser;
 
@@ -89,7 +93,7 @@ public class AccountsAPI : IAccountsAPI
 
         enforceHTTP(!user.isNull, HTTPStatus.notFound, "user not found");
 
-        enforceHTTP(password == auth.get().password, HTTPStatus.badRequest, "wrong password");
+        enforceHTTP(!checkScryptPasswordHash(auth.get().password, password), HTTPStatus.badRequest, "wrong password");
 
         return serializeToJson(user.get());
     }
