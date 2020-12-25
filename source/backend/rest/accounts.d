@@ -89,11 +89,11 @@ public class AccountsAPI : IAccountsAPI
 
         enforceHTTP(!auth.isNull, HTTPStatus.notFound, "user with that email/username not found");
 
-        const user = findOne!User(["_id": auth.get().id]);
+        const user = findOne!User(["_id": auth.get().id.asString]);
 
         enforceHTTP(!user.isNull, HTTPStatus.notFound, "user not found");
 
-        enforceHTTP(!checkScryptPasswordHash(auth.get().password, password), HTTPStatus.badRequest, "wrong password");
+        enforceHTTP(checkScryptPasswordHash(auth.get().password, password), HTTPStatus.badRequest, "wrong password");
 
         return serializeToJson(user.get());
     }
