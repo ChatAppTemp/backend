@@ -107,7 +107,7 @@ public MongoCursor!T getAll(T)() @safe
 public MongoCursor!T find(T, R)(R query) @safe
 {
     MongoCollection collection = mongo[getCollectionName!T()];
-    return collection.find!R(query);
+    return collection.find!T(query);
 }
 
 /++

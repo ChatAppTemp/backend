@@ -28,6 +28,7 @@ public struct User
 /++
  + the user object, but in minimal form. used for sessions
  +/
+// TODO: should this also have the `Status` field?
 public struct ServiceUser
 {
     /// the users id
@@ -48,6 +49,9 @@ public struct AuthUser
     /// the users id
     @name("_id")
     public Mistflake id;
+
+    /// the token of the user
+    public string token;
 
     /// the username of the user
     public string username;
