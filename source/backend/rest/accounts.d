@@ -48,8 +48,9 @@ public class AccountsAPI : IAccountsAPI
         import viva.mistflake : Mistflake;
         import viva.scrypt : genScryptPasswordHash;
         import backend.util : userIdGenerator, generateToken;
-        import backend.data : User, AuthUser, Status;
+        import backend.data : User, AuthUser, Status, StatusType;
         import backend.db : insert, findOne;
+        import backend.session : startSession;
 
         enforceHTTP(username.length > 0, HTTPStatus.badRequest, "username cannot be empty");
         enforceHTTP(password.length > 0, HTTPStatus.badRequest, "password cannot be empty");
@@ -68,8 +69,15 @@ public class AccountsAPI : IAccountsAPI
         AuthUser auth = AuthUser(id, token, username, email, hashedPassword);
         insert(auth);
 
-        User user = User(id, username, "https://some.link/default.png", Status());
+        // TODO: technically we shouldnt really store the users status in the db, but then again the custom messages.
+        // - but like it makes no sense to store in the db if the user status is online, because if it is then the user object will be in memory anyway
+        // - so like should we store it as online here? or offline or like. it doesnt matter in the end, because when you login you become online unless you change status
+        // - although discord does remember your last used status type, so perhaps thats what we could store? and then just have another user object (`ServiceUser`) that
+        // - can tell you if the user is offline (if the user is in the sessions map and not invisible). idk yet about this hmm
+        User user = User(id, username, "https://some.link/default.png", Status(StatusType.ONLINE));
         insert(user);
+
+        startSession(token, user);
 
         return serializeToJson(["token": serializeToJson(token), "user": serializeToJson(user)]);
     }
@@ -84,7 +92,8 @@ public class AccountsAPI : IAccountsAPI
         import viva.io : println;
         import viva.scrypt : checkScryptPasswordHash;
         import backend.db : findOne;
-        import backend.data : User, AuthUser;
+        import backend.data : User, AuthUser, Status, StatusType;
+        import backend.session : startSession, sessionExists;
 
         const auth = findOne!AuthUser(["$or": [["username": login], ["email": login]]]);
 
@@ -96,6 +105,15 @@ public class AccountsAPI : IAccountsAPI
 
         enforceHTTP(checkScryptPasswordHash(auth.get().password, password), HTTPStatus.badRequest, "wrong password");
 
-        return serializeToJson(["token": serializeToJson(auth.get().token), "user": serializeToJson(user.get())]);
+        User userObj = user.get();
+        userObj.status = Status(StatusType.ONLINE);
+
+        println(sessionExists(auth.get().token));
+
+        startSession(auth.get().token, userObj);
+
+        println(sessionExists(auth.get().token));
+
+        return serializeToJson(["token": serializeToJson(auth.get().token), "user": serializeToJson(userObj)]);
     }
 }

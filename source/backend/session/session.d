@@ -6,7 +6,7 @@ import backend.data;
 public struct Session
 {
     ///
-    ServiceUser user;
+    User user;
 
     /++
      +
@@ -22,15 +22,28 @@ private Session[string] sessions;
 /++
  +
  +/
-public void startSession(string token, User user)
+public void startSession(string token, User user) @safe
 {
-    sessions[token] = Session(ServiceUser(user.id, user.username, user.pfpLink));
+    sessions[token] = Session(user);
 }
 
 /++
  +
  +/
-public Session getSession(string token)
+public bool sessionExists(string token) @safe
+{
+    if (token in sessions)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+/++
+ +
+ +/
+public Session getSession(string token) @safe
 {
     if (token in sessions)
     {
@@ -43,7 +56,7 @@ public Session getSession(string token)
 /++
  +
  +/
-public void endSession(string token)
+public void endSession(string token) @safe
 {
 
 }

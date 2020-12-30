@@ -1,7 +1,8 @@
 import vibe.d;
 import viva.types.string;
 
-// TODO: Mistflake ids gets stored as objects in db. how do we change this? we want to store them as strings
+// TODO: we need a way for frontend to tell backend that a user is "quitting" so we can terminate the session
+// TODO: maybe also start working on socket system so we can lay it all out better?
 
 private void handleError(HTTPServerRequest _, HTTPServerResponse res, HTTPServerErrorInfo error)
 {
